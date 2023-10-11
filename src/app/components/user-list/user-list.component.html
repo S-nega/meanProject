@@ -1,0 +1,11 @@
+<p>user-list works!</p>
+<!-- <div *ngFor="let ul of myUserList; let i = index"> -->
+    <!-- <div>{{localStorage.userName}} {{localStorage.userSex}} {{localStorage.userBirthday}}</div> -->
+    <!-- <div>{{ul.userName}} </div>
+<div> -->
+
+<div *ngFor="let user of registeredUsers; let i = index">
+    <!-- <div>{{user.userName}} </div> -->
+    <a routerLink="/user-page" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="currentUser(user.userName)">{{user.userName}} </a>
+    <!-- <a [routerLink]="['/user-page',  user.userName]" >{{user.userName}}</a> -->
+</div>
