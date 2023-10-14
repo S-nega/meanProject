@@ -8,6 +8,11 @@ import { UserListComponent } from './components/user-list/user-list.component';
 import { StorageServiceModule } from 'ngx-webstorage-service';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { UserPageComponent } from './components/user-page/user-page.component';
+// import {HttpClientModule} from '@angular/common/http';
+// import { CommonService } from 'common';
+// import { CommonModule } from '@angular/common';
+
+
 
 @NgModule({
   declarations: [
@@ -18,8 +23,10 @@ import { UserPageComponent } from './components/user-page/user-page.component';
   ],
   imports: [
     BrowserModule,
+    // HttpClientModule,
     AppRoutingModule,
     FormsModule,
+    // CommonModule
     StorageServiceModule,
   ],
   providers: [

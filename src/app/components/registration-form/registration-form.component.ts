@@ -2,6 +2,10 @@ import { Component, Input, Output, OnInit } from '@angular/core';
 import { UserList } from 'src/app/models/userList';
 import { LocalService } from 'src/app/local.service';
 import { isLocalStorageAvailable } from 'ngx-webstorage-service/src';
+import { UserService } from 'src/app/services/user.service';
+// import { HttpModule } from '@angular/common/http';
+// import { HttpClientModule, HttpClient } from '@angular/common/http';
+// import {db.university} from "mongodb";
 
 @Component({
   selector: 'app-registration-form',
@@ -11,11 +15,13 @@ import { isLocalStorageAvailable } from 'ngx-webstorage-service/src';
 
 
 export class RegistrationFormComponent implements OnInit{
-  @Output() public usersList:UserList[] = [];
+  // @Output() public usersList:UserList[] = [];
   // @Input()
   // localStorage:UserList[] = [];
   // makes: UserList[] = [];
-  constructor() {  }
+  // constructor() {  }
+  // newUser: any[] = [];
+  constructor(private userService: UserService) { }
 
   userName:string = '';
   userEmail:string = '';
@@ -23,24 +29,22 @@ export class RegistrationFormComponent implements OnInit{
   userSex:string = '';
   userBirthday:string = '';
 
-  myUserList = [
-    {
-      userName: 'Snegaa',
-      userEmail: 'Snega@s.s',
-      userPassword: '12345',
-      userSex: 'Female',
-      userBirthday: '2002-01-23',
-    },
-    {
-      userName: 'Leshaa',
-      userEmail: 'Snega@s.s',
-      userPassword: '12345',
-      userSex: 'Male',
-      userBirthday: '2002-01-23',
-    },
-  ]
-
-
+  // myUserList = [
+  //   {
+  //     userName: 'Snegaa',
+  //     userEmail: 'Snega@s.s',
+  //     userPassword: '12345',
+  //     userSex: 'Female',
+  //     userBirthday: '2002-01-23',
+  //   },
+  //   {
+  //     userName: 'Leshaa',
+  //     userEmail: 'Snega@s.s',
+  //     userPassword: '12345',
+  //     userSex: 'Male',
+  //     userBirthday: '2002-01-23',
+  //   },
+  // ]
   ngOnInit(): void {
     // this.myUserList.push(JSON.parse(localStorage.getItem('user'))); 
   }
@@ -61,31 +65,42 @@ export class RegistrationFormComponent implements OnInit{
           userBirthday: this.userBirthday,
         }
 
-      // console.log("myUserList 1", this.myUserList);
-      // console.log("localStorage 1", localStorage.getItem('user'));
-      // myUserList = localStorage;
-      // this.myUserList.push(JSON.parse(localStorage.getItem('user')));
-      
-      // this.myUserList.push(user)
-      // localStorage.setItem('user', JSON.stringify(this.myUserList));
-      // var ul = localStorage.setItem('user', JSON.stringify(this.myUserList));
-      
-      // this.myUserList.push(ul);
-      // console.log("myUserList 2", this.myUserList);
-      // console.log("localStorage 2", localStorage.getItem('user'));
-
-      // localStorage.clear();
-
       const exUsersJson = localStorage.getItem('user');
       const exUsers = exUsersJson ? JSON.parse(exUsersJson) : [];
       exUsers.push(user);
       localStorage.setItem('user', JSON.stringify(exUsers));
+      
+      this.userService.addUser(user).subscribe(
+        (addedUser) => {
+          console.log('Объект успешно добавлен:', addedUser);
+          // Очистите новый объект после успешного добавления
+          
+        },
+        (error) => {
+          console.error('Произошла ошибка при добавлении объекта:', error);
+        }
+      )
 
+      
       this.userName = "";
       this.userEmail = "";
       this.userPassword = "";
       this.userSex = "";
       this.userBirthday = "";
+
+      // this.addUserToDb(user);
     }
   }
+  // addUserToDb(user: any){
+  //   this.userService.addUser(user).subscribe(
+  //     (addedUser) => {
+  //       console.log('Объект успешно добавлен:', addedUser);
+  //       // Очистите новый объект после успешного добавления
+        
+  //     },
+  //     (error) => {
+  //       console.error('Произошла ошибка при добавлении объекта:', error);
+  //     }
+  //   )
+  // }
 }
