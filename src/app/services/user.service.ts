@@ -1,29 +1,51 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+// import { Injectable } from '@angular/core';
+// import { HttpClient } from '@angular/common/http';
+// import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class UserService {
-  private apiUrl = '/api/user';
+// @Injectable({
+//   providedIn: 'root'
+// })
 
-  constructor(private http: HttpClient) { }
+// export class UserService{
+// //   private users: User[] = [];
+//   private apiUrl = '/api/user';
 
-  public getUsers(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
-  }
-  public addUser(newUser: any): Observable<any>{
-    return this.http.post<any>(this.apiUrl, newUser);
-  }
+//   constructor(
+//     private http: HttpClient
+//     // private backend: BackendService,
+//   ){}
 
-//   public saveUser(object: object) {: Observable<any[]> {
-//     return this.http.set<any[]>(this.apiUrl);
+//   getRegUsers(): Observable<any[]> {
+//     return this.http.get<any[]>(this.apiUrl);
 //   }
-//   public removeUser(key: string) {
-//     localStorage.removeItem(key);
-//   }
-//   public clearUser() {
-//     localStorage.clear();
-//   }
-}
+
+// //   getUsers() {
+// //     this.backend.getAll(User).then((users: User[]) => {
+// //       this.users.push(...users);
+// //     });
+// //     return this.users;
+// //   }
+// }
+
+// // export class UserService {
+// //   private apiUrl = '/api/user';
+
+// //   constructor(private http: HttpClient) { }
+
+// //   public getUsers(): Observable<any[]> {
+// //     // return this.http.get<any[]>(this.apiUrl);
+// //   }
+// //   public addUser(newUser: any): Observable<any>{
+// //     return this.http.post<any>(this.apiUrl, newUser);
+// //   }
+
+// //   public saveUser(object: object) {: Observable<any[]> {
+// //     return this.http.set<any[]>(this.apiUrl);
+// //   }
+// //   public removeUser(key: string) {
+// //     localStorage.removeItem(key);
+// //   }
+// //   public clearUser() {
+// //     localStorage.clear();
+// //   }
+// // }

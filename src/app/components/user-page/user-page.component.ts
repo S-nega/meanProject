@@ -10,6 +10,7 @@ export class UserPageComponent {
   currentUsers: any[] = [];
   currentUser: {} = {};
   ngOnInit(){
+    console.log("userPage")
     const curUser = localStorage.getItem('CurUser');
     console.log(curUser);
     if (curUser){

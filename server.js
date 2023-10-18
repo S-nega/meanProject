@@ -7,16 +7,16 @@ const app = new express();
 
 // Определение схем и моделей для работы с базой данных
 
-// const Schema = mongoose.Schema;
-// const userSchema = new Schema({ 
-//     /* ваша схема */
-//     userName: String,
-//     userEmail: String,
-//     userPassword: String,
-//     userSex: String, 
-//     userBirthday: Date, 
-// });
-// const userModel = mongoose.model('User', userSchema);
+const Schema = mongoose.Schema;
+const userSchema = new Schema({ 
+    /* ваша схема */
+    userName: String,
+    userEmail: String,
+    userPassword: String,
+    userSex: String, 
+    userBirthday: Date, 
+});
+const User = mongoose.model('User', userSchema);
 
 
 app.use(express.bodyParser());
@@ -24,17 +24,18 @@ app.use('/api', router);
 app.use(cors());
 app.options('*', cors());
 
-// // Настройка маршрутов API
-// app.get('/api/user', (req, res) => {
-//   userModel.find((err, data) => {
-//     if (err) {
-//       console.error(err);
-//       res.status(500).send(err);
-//     } else {
-//       res.json(data);
-//     }
-//   });
-// });
+
+// Настройка маршрутов API
+app.get('/api/user', (req, res) => {
+  User.find((err, data) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send(err);
+    } else {
+      res.json(data);
+    }
+  });
+});
 
 app.listen(3000, (err) => {
     if (err != null) {

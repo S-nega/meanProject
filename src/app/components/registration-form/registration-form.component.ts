@@ -2,7 +2,7 @@ import { Component, Input, Output, OnInit } from '@angular/core';
 import { UserList } from 'src/app/models/userList';
 import { LocalService } from 'src/app/local.service';
 import { isLocalStorageAvailable } from 'ngx-webstorage-service/src';
-import { UserService } from 'src/app/services/user.service';
+// import { UserService } from 'src/app/services/user.service';
 // import { HttpModule } from '@angular/common/http';
 // import { HttpClientModule, HttpClient } from '@angular/common/http';
 // import {db.university} from "mongodb";
@@ -21,7 +21,7 @@ export class RegistrationFormComponent implements OnInit{
   // makes: UserList[] = [];
   // constructor() {  }
   // newUser: any[] = [];
-  constructor(private userService: UserService) { }
+  // constructor(private userService: UserService) { }
 
   userName:string = '';
   userEmail:string = '';
@@ -46,6 +46,7 @@ export class RegistrationFormComponent implements OnInit{
   //   },
   // ]
   ngOnInit(): void {
+    console.log("registration")
     // this.myUserList.push(JSON.parse(localStorage.getItem('user'))); 
   }
 
@@ -70,16 +71,16 @@ export class RegistrationFormComponent implements OnInit{
       exUsers.push(user);
       localStorage.setItem('user', JSON.stringify(exUsers));
       
-      this.userService.addUser(user).subscribe(
-        (addedUser) => {
-          console.log('Объект успешно добавлен:', addedUser);
-          // Очистите новый объект после успешного добавления
+      // this.userService.addUser(user).subscribe(
+      //   (addedUser) => {
+      //     console.log('Объект успешно добавлен:', addedUser);
+      //     // Очистите новый объект после успешного добавления
           
-        },
-        (error) => {
-          console.error('Произошла ошибка при добавлении объекта:', error);
-        }
-      )
+      //   },
+      //   (error) => {
+      //     console.error('Произошла ошибка при добавлении объекта:', error);
+      //   }
+      // )
 
       
       this.userName = "";
