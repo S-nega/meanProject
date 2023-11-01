@@ -1,6 +1,7 @@
 <p>user-list works!</p>
 
-<div *ngFor="let user of registeredUsers; let i = index">
-    <a routerLink="/user-page" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="currentUser(user.userName)">{{user.userName}} </a>
+<div *ngFor="let user of regUsers; let i = index">
+    <p>{{user.name}}</p>
+    <!-- <a routerLink="/user-page" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="currentUser(user.userName)">{{user.userName}} </a> -->
 </div>
   

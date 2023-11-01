@@ -47,7 +47,8 @@ app.get('/users', async(req, res) => {
         // res.status(200);
 
         // res.status(200).json(users);
-        
+        res.json(users); //get json at web page
+
         // res.end(`<html><body><h1>This is HTML</h1></body></html>`);
         // res.render('user-list', {users});
 
@@ -57,12 +58,12 @@ app.get('/users', async(req, res) => {
         // fs.redirect(__dirname + `/src/app/components/user-list/user-list.component.ts`)
         
 
-        fs.readFile(__dirname + `/src/app/components/user-list/user-list.component.html`)
-            .then(contents => {
-                res.writeHead(200);
-                console.log(users);
-                res.end(contents, users);
-            })
+        // fs.readFile(__dirname + `/src/app/components/user-list/user-list.component.html`)
+        //     .then(contents => {
+        //         res.writeHead(200);
+        //         console.log(users);
+        //         res.end(contents, users);
+        //     })
     
         
     
