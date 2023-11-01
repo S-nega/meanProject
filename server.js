@@ -1,50 +1,149 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const router = require('./router');
-const cors = require('cors');
-const app = new express();
 
+const express = require('express')
+const mongoose = require('mongoose')
+const User = require('./models/userModel')
+const app = express()
 
-// Определение схем и моделей для работы с базой данных
+const http = require("http");
+const fs = require('fs').promises;
 
-const Schema = mongoose.Schema;
-const userSchema = new Schema({ 
-    /* ваша схема */
-    userName: String,
-    userEmail: String,
-    userPassword: String,
-    userSex: String, 
-    userBirthday: Date, 
-});
-const User = mongoose.model('User', userSchema);
+let userListFile;
 
+app.use(express.json())
+app.use(express.urlencoded({extended: false}))
 
-app.use(express.bodyParser());
-app.use('/api', router);
-app.use(cors());
-app.options('*', cors());
+// routes
 
+//home page
+app.get('/', (req, res) => {
+    // res.send('Hello node api')
+    fs.readFile(__dirname + `/src/app/app.component.html`)
+            .then(contents => {
+                res.writeHead(200);
+                res.end(contents);
+            })
+})
 
-// Настройка маршрутов API
-app.get('/api/user', (req, res) => {
-  User.find((err, data) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send(err);
-    } else {
-      res.json(data);
+//page for add user | registration page
+app.get('/registration-form', async(req, res) => {
+    try{
+        fs.readFile(__dirname + `/src/app/components/registration-form/registration-form.component.html`)
+            .then(contents => {
+                res.writeHead(200);
+                res.end(contents);
+            })
+    } catch (error){
+        res.status(500).json({message: error.message})
     }
-  });
-});
+})
 
-app.listen(3000, (err) => {
-    if (err != null) {
-        console.log(err);
-    } 
-    else {
-        console.log('Сервер запущен на порту 3000');
+
+//get all users
+app.get('/users', async(req, res) => {
+    try{
+        const users = await User.find({});
+        // users = JSON.parse(users);
+        // console.log(users);
+        // res.status(200);
+
+        // res.status(200).json(users);
+        
+        // res.end(`<html><body><h1>This is HTML</h1></body></html>`);
+        // res.render('user-list', {users});
+
+        // res.end(`user-list.component.html`);
+        // res.send({users: users});
+
+        // fs.redirect(__dirname + `/src/app/components/user-list/user-list.component.ts`)
+        
+
+        fs.readFile(__dirname + `/src/app/components/user-list/user-list.component.html`)
+            .then(contents => {
+                res.writeHead(200);
+                console.log(users);
+                res.end(contents, users);
+            })
+    
+        
+    
+    // if (users) {
+    // //   this.registeredUsers = JSON.parse(storedUsers);
+
+    //   const exUsersJson = localStorage.getItem('user');
+    //   const exUsers = exUsersJson ? JSON.parse(exUsersJson) : [];
+    //   exUsers.push(users);
+    //   localStorage.setItem('user', JSON.stringify(exUsers));
+    // }
+
+    } catch (error){
+        res.status(500).json({err_message: error.message})
     }
-});
+})
 
-// Подключение к MongoDB
-mongoose.connect('mongodb://localhost/3000', { useNewUrlParser: true });
+//get one user 
+app.get('/users/:id', async(req, res) => {
+    try {
+        const {id} = req.params;
+        const user = await User.findById(id);
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+})
+
+//create new user
+app.post('/users', async(req, res) => {
+    try{
+        const user = await User.create(req.body)
+        res.status(200).json(user);
+    } catch (error){
+        console.log(error)
+        res.status(500).json({message: error.message})
+    }
+})
+
+//update user
+app.put('/users/:id', async(req, res) => {
+    try {
+        const {id} = req.params;
+        const user = await User.findByIdAndUpdate(id, req.body);
+        
+        if(!user){
+            return res.status(404).json({message: `cannot find any user with ID ${id}`})
+        }
+        const updatedUser = await User.findById(id);
+        res.status(200).json(updatedUser);
+
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+})
+
+//delete user
+app.delete('/users/:id', async(req, res) => {
+    try{
+        const {id} = req.params;
+        const user = await User.findByIdAndDelete(id);
+        
+        if(!user){
+            return res.status(404).json({message: `cannot find any user with ID ${id}`})
+        }
+        res.status(200).json(user);
+        
+    } catch (error){
+        console.log(error)
+        res.status(500).json({message: error.message})
+    }
+})
+
+mongoose.
+connect('mongodb+srv://admin:admin@cluster0.33bfzp0.mongodb.net/Node-API?retryWrites=true&w=majority')
+.then(() => {
+    app.listen(3000, ()=> {
+        console.log(`Node API app is running on port 3000`)
+    });    
+    console.log('connected to MongoDB')
+}).catch((error) => {
+    console.log(error)
+    
+})

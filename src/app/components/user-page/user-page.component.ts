@@ -19,4 +19,3 @@ export class UserPageComponent {
     }
   }
 }
-// console.log(curUser);
